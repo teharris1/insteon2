@@ -14,7 +14,7 @@ of new features.
 - Hub users can use it interchangably with the Hub app. The state will updated in HA.
 
 Download these files and either put them in `<config>/custom_components/insteon2` director. <config> is the location
-where your `configuration.yaml file is. The `custom_components` folder will likely not exist so you need to create it.
+where your `configuration.yaml` file is. The `custom_components` folder will likely not exist so you need to create it.
 
 Install the `pyinsteon` library using this command:
   `python3 -m pip install --upgrade https://github.com/teharris1/pyinsteon/archive/master.zip`
