@@ -16,9 +16,13 @@ of new features.
 Download these files and either put them in `<config>/custom_components/insteon2` director. <config> is the location
 where your `configuration.yaml` file is. The `custom_components` folder will likely not exist so you need to create it.
 
+You can download these files here: https://github.com/teharris1/insteon2/archive/master.zip
+
 Install the `pyinsteon` library using this command:
-  `python3 -m pip install --upgrade https://github.com/teharris1/pyinsteon/archive/master.zip`
-  
+```
+python3 -m pip install --upgrade https://github.com/teharris1/pyinsteon/archive/master.zip
+```
+
 Please provide feedback so we can make this rock solid before releasing to Home Assistant!
 
 Thanks
