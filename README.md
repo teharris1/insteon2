@@ -23,6 +23,36 @@ Install the `pyinsteon` library using this command:
 python3 -m pip install --upgrade https://github.com/teharris1/pyinsteon/archive/master.zip
 ```
 
+Your `configuration.yaml` needs to contain the following 
+
+For a PLM:
+```
+insteon2:
+  port: /dev/ttyUSB0
+```
+Replace `/dev/ttyUSB0` with your port that the PLM is connected to (ie. COM3 on Windows)
+
+For a Hub v2:
+```
+insteon2:
+  host: <host ip address>
+  ip_port: <port number>
+  username: !secret hub_username
+  password: !secret hub_password
+```
+
+For a Hub v1:
+```
+insteon2:
+  host: <host ip address>
+  ip_port: <port number>
+  hub_version: 1
+```
+
+These configuration settings are the same as the prior version except you need to replace `insteon` with `insteon2` and you do not
+need the `device_override` section. In order to get a battery operated device to be recognized you just need to trigger the device a
+few times. This can be done by pressing any button, including the set button on the device until HA recognizes it.
+
 Please provide feedback so we can make this rock solid before releasing to Home Assistant!
 
 Thanks
