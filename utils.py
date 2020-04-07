@@ -91,22 +91,23 @@ def add_on_off_event_device(hass, device):
         hass.bus.fire(event, schema)
 
     for group in device.events:
-        for event in device.events[group]:
-            if event in [
-                OFF_EVENT,
-                ON_EVENT,
-                OFF_FAST_EVENT,
-                ON_FAST_EVENT,
-            ]:
-                _LOGGER.debug(
-                    "Registering on/off event for %s %d %s",
-                    str(device.address),
-                    group,
-                    event,
-                )
-                device.events[group][event].subscribe(
-                    async_fire_group_on_off_event, force_strong_ref=True
-                )
+        if isinstance(group, int):
+            for event in device.events[group]:
+                if event in [
+                    OFF_EVENT,
+                    ON_EVENT,
+                    OFF_FAST_EVENT,
+                    ON_FAST_EVENT,
+                ]:
+                    _LOGGER.debug(
+                        "Registering on/off event for %s %d %s",
+                        str(device.address),
+                        group,
+                        event,
+                    )
+                    device.events[group][event].subscribe(
+                        async_fire_group_on_off_event, force_strong_ref=True
+                    )
 
 
 def register_new_device_callback(hass, config):
