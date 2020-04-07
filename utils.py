@@ -73,7 +73,11 @@ def add_on_off_event_device(hass, device):
     @callback
     def async_fire_group_on_off_event(name, address, group, button):
         # Firing an event when a button is pressed.
-        button_id = button[-1].lower() if button else ""
+        if button and button[-2] == "_":
+            button_id = button[-1].lower()
+        else:
+            button_id = ""
+
         schema = {CONF_ADDRESS: address}
         if button_id != "":
             schema[EVENT_CONF_BUTTON] = button_id
