@@ -76,10 +76,10 @@ def add_on_off_event_device(hass, device):
         if button and button[-2] == "_":
             button_id = button[-1].lower()
         else:
-            button_id = ""
+            button_id = None
 
         schema = {CONF_ADDRESS: address}
-        if button_id != "":
+        if button_id:
             schema[EVENT_CONF_BUTTON] = button_id
         if name == ON_EVENT:
             event = EVENT_GROUP_ON
@@ -89,9 +89,7 @@ def add_on_off_event_device(hass, device):
             event = EVENT_GROUP_ON_FAST
         if name == OFF_FAST_EVENT:
             event = EVENT_GROUP_OFF_FAST
-        _LOGGER.debug(
-            "Firing event %s with address %s and button %s", event, address, button_id
-        )
+        _LOGGER.debug("Firing event %s with %s", event, schema)
         hass.bus.fire(event, schema)
 
     for group in device.events:
