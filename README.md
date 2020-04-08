@@ -1,7 +1,7 @@
 # insteon2
 Home Assistant Insteon component version 2
 
-This is a beta version of the Insteon v2 component for Home-Assistant. It is still under development but has a lot 
+This is a beta version of the Insteon v2 component for Home-Assistant. It is still under development but has a lot
 of new features.
 
 - Auto discovery also identifies battery operated devices just by triggering the device rather than using device overrides
@@ -20,10 +20,10 @@ You can download these files here: https://github.com/teharris1/insteon2/archive
 
 Install the `pyinsteon` library using this command:
 ```
-python3 -m pip install --upgrade https://github.com/teharris1/pyinsteon/archive/master.zip
+python3 -m pip install --upgrade https://github.com/teharris1/pyinsteon/archive/release1.zip
 ```
 
-Your `configuration.yaml` needs to contain the following 
+Your `configuration.yaml` needs to contain the following
 
 For a PLM:
 ```
