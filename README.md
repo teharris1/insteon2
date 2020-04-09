@@ -23,6 +23,8 @@ Install the `pyinsteon` library using this command:
 python3 -m pip install --upgrade https://github.com/teharris1/pyinsteon/archive/release1.zip
 ```
 
+Alternatively you can use the Dockerfile to start a docker image.
+
 Your `configuration.yaml` needs to contain the following
 
 For a PLM:
