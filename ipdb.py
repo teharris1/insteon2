@@ -58,15 +58,15 @@ DEVICE_PLATFORM = {
     DimmableLightingControl_InLineLinc: {LIGHT: [1], ON_OFF_EVENTS: [1]},
     DimmableLightingControl_KeypadLinc_6: {
         LIGHT: [1],
-        SWITCH: range(2, 7),
-        ON_OFF_EVENTS: range(1, 7),
+        SWITCH: [3, 4, 5, 6],
+        ON_OFF_EVENTS: [1, 3, 4, 5, 6],
     },
     DimmableLightingControl_KeypadLinc_8: {
         LIGHT: [1],
         SWITCH: range(2, 9),
         ON_OFF_EVENTS: range(1, 9),
     },
-    DimmableLightingControl_LampLinc: {LIGHT: [1], ON_OFF_EVENTS: [1, 2]},
+    DimmableLightingControl_LampLinc: {LIGHT: [1], ON_OFF_EVENTS: [1]},
     DimmableLightingControl_OutletLinc: {LIGHT: [1], ON_OFF_EVENTS: [1]},
     DimmableLightingControl_SwitchLinc: {LIGHT: [1], ON_OFF_EVENTS: [1]},
     DimmableLightingControl_ToggleLinc: {LIGHT: [1], ON_OFF_EVENTS: [1]},
@@ -89,8 +89,8 @@ DEVICE_PLATFORM = {
     SwitchedLightingControl_DinRail: {SWITCH: [1], ON_OFF_EVENTS: [1]},
     SwitchedLightingControl_InLineLinc: {SWITCH: [1], ON_OFF_EVENTS: [1]},
     SwitchedLightingControl_KeypadLinc_6: {
-        SWITCH: range(1, 7),
-        ON_OFF_EVENTS: range(1, 7),
+        SWITCH: [1, 3, 4, 5, 6],
+        ON_OFF_EVENTS: [1, 3, 4, 5, 6],
     },
     SwitchedLightingControl_KeypadLinc_8: {
         SWITCH: range(1, 9),
