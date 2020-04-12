@@ -26,8 +26,8 @@ class InsteonSwitchDevice(InsteonEntity, SwitchDevice):
 
     async def async_turn_on(self, **kwargs):
         """Turn device on."""
-        await self._insteon_device.async_on()
+        await self._insteon_device.async_on(group=self._insteon_device_group.group)
 
     async def async_turn_off(self, **kwargs):
         """Turn device off."""
-        await self._insteon_device.async_off()
+        await self._insteon_device.async_off(group=self._insteon_device_group.group)
