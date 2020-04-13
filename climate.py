@@ -52,6 +52,12 @@ async def async_setup_platform(hass, config, async_add_entities, discovery_info=
 class InsteonClimateDevice(InsteonEntity, ClimateDevice):
     """A Class for an Insteon device."""
 
+    def __init__(self, device, group):
+        """Initialize the INSTEON thermostat entity."""
+        super().__init__(device, group)
+        # Need to know if the values are C or F
+        self.hass.async_create_task(device.async_read_op_flags())
+
     @property
     def supported_features(self):
         """Return the supported features for this entity."""
