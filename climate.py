@@ -22,15 +22,20 @@ from .utils import async_add_insteon_entities
 
 _LOGGER = logging.getLogger(__name__)
 
+COOLING = 1
+HEATING = 2
+DEHUMIDIFYING = 3
+HUMIDIFYING = 4
 
-COOL_SET_POINT = 1
-HEAT_SET_POINT = 2
-HUMIDITY_HIGH = 3
-HUMIDITY_LOW = 4
-FAN_MODE = 13
-SYSTEM_MODE = 12
 TEMPERATURE = 10
 HUMIDITY = 11
+SYSTEM_MODE = 12
+FAN_MODE = 13
+COOL_SET_POINT = 14
+HEAT_SET_POINT = 15
+HUMIDITY_HIGH = 16
+HUMIDITY_LOW = 17
+
 
 HVAC_MODES = {0: "off", 1: "heat", 2: "cool", 3: "auto"}
 FAN_MODES = {4: "auto", 8: "on"}
@@ -60,7 +65,7 @@ class InsteonClimateDevice(InsteonEntity, ClimateDevice):
     @property
     def temperature_unit(self) -> str:
         """Return the unit of measurement."""
-        if self._insteon_device.operating_flags[CELSIUS].value:
+        if self._insteon_device.properties[CELSIUS].value:
             return TEMP_CELSIUS
         return TEMP_FAHRENHEIT
 
@@ -122,12 +127,33 @@ class InsteonClimateDevice(InsteonEntity, ClimateDevice):
         """Return the humidity we try to reach."""
         high = self._insteon_device.groups[HUMIDITY_HIGH].value
         low = self._insteon_device.groups[HUMIDITY_LOW].value
-        return (high + low) / 2
+        # May not be loaded yet so return a default if required
+        return (high + low) / 2 if high and low else 50
 
     @property
     def min_humidity(self) -> int:
         """Return the minimum humidity."""
         return 1
+
+    @property
+    def device_state_attributes(self):
+        """Provide attributes for display on device card."""
+        attr = super().device_state_attributes
+        hvac_action = "off"
+        if self._insteon_device.groups[COOLING].value:
+            hvac_action = "cooling"
+        if self._insteon_device.groups[HEATING].value:
+            hvac_action = "heating"
+
+        humidifier = "off"
+        if self._insteon_device.groups[DEHUMIDIFYING].value:
+            humidifier = "dehumidfying"
+        if self._insteon_device.groups[HUMIDIFYING].value:
+            humidifier = "humidfying"
+
+        attr["hvac action"] = hvac_action
+        attr["humidifier"] = humidifier
+        return attr
 
     async def async_set_temperature(self, **kwargs) -> None:
         """Set new target temperature."""
