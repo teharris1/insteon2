@@ -193,6 +193,10 @@ class InsteonClimateDevice(InsteonEntity, ClimateDevice):
         await super().async_added_to_hass()
         await self._insteon_device.async_read_op_flags()
         for group in [
+            COOLING,
+            HEATING,
+            DEHUMIDIFYING,
+            HUMIDIFYING,
             HEAT_SET_POINT,
             FAN_MODE,
             SYSTEM_MODE,
