@@ -123,13 +123,13 @@ def register_new_device_callback(hass, config):
         )
         hass.async_add_job(devices.async_save, hass.config.config_dir)
         device = devices[address]
+        device.status()
         platforms = get_device_platforms(device)
         for platform in platforms:
             if platform == ON_OFF_EVENTS:
                 add_on_off_event_device(hass, device)
 
             else:
-                _LOGGER.error("I think the error is here")
                 hass.async_create_task(
                     discovery.async_load_platform(
                         hass,
