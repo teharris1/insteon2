@@ -3,6 +3,7 @@ import logging
 
 from pyinsteon.device_types import (
     ClimateControl_Thermostat,
+    ClimateControl_WirelessThermostat,
     DimmableLightingControl,
     DimmableLightingControl_DinRail,
     DimmableLightingControl_FanLinc,
@@ -77,10 +78,7 @@ DEVICE_PLATFORM = {
     GeneralController_RemoteLinc: {ON_OFF_EVENTS: [1]},
     SecurityHealthSafety_DoorSensor: {BINARY_SENSOR: [1, 3, 4], ON_OFF_EVENTS: [1]},
     SecurityHealthSafety_LeakSensor: {BINARY_SENSOR: [2, 4]},
-    SecurityHealthSafety_MotionSensor: {
-        BINARY_SENSOR: [1, 2, 3, 4],
-        ON_OFF_EVENTS: [1],
-    },
+    SecurityHealthSafety_MotionSensor: {BINARY_SENSOR: [1, 2, 3], ON_OFF_EVENTS: [1]},
     SecurityHealthSafety_OpenCloseSensor: {BINARY_SENSOR: [1]},
     SecurityHealthSafety_Smokebridge: {BINARY_SENSOR: [1]},
     SensorsActuators_IOLink: {SWITCH: [1], BINARY_SENSOR: [2], ON_OFF_EVENTS: [1, 2]},
@@ -101,6 +99,7 @@ DEVICE_PLATFORM = {
     SwitchedLightingControl_SwitchLinc: {SWITCH: [1], ON_OFF_EVENTS: [1]},
     SwitchedLightingControl_ToggleLinc: {SWITCH: [1], ON_OFF_EVENTS: [1]},
     ClimateControl_Thermostat: {CLIMATE: [1]},
+    ClimateControl_WirelessThermostat: {CLIMATE: [1]},
     WindowCovering: {COVER: [1]},
     X10Dimmable: {LIGHT: [1]},
     X10OnOff: {SWITCH: [1]},
