@@ -136,22 +136,27 @@ class InsteonClimateDevice(InsteonEntity, ClimateDevice):
         return 1
 
     @property
-    def device_state_attributes(self):
-        """Provide attributes for display on device card."""
-        attr = super().device_state_attributes
+    def hvac_action(self) -> Optional[str]:
+        """Return the current running hvac operation if supported.
+
+        Need to be one of CURRENT_HVAC_*.
+        """
         hvac_action = "off"
         if self._insteon_device.groups[COOLING].value:
             hvac_action = "cooling"
         if self._insteon_device.groups[HEATING].value:
             hvac_action = "heating"
+        return hvac_action
 
+    @property
+    def device_state_attributes(self):
+        """Provide attributes for display on device card."""
+        attr = super().device_state_attributes
         humidifier = "off"
         if self._insteon_device.groups[DEHUMIDIFYING].value:
             humidifier = "dehumidfying"
         if self._insteon_device.groups[HUMIDIFYING].value:
             humidifier = "humidfying"
-
-        attr["hvac action"] = hvac_action
         attr["humidifier"] = humidifier
         return attr
 
@@ -186,7 +191,7 @@ class InsteonClimateDevice(InsteonEntity, ClimateDevice):
         low = self._insteon_device.groups[HUMIDITY_LOW].value + change
         await self._insteon_device.async_set_humidity_low_set_point(low)
         await self._insteon_device.async_set_humidity_high_set_point(high)
-        await self._insteon_device.async_status()
+        # await self._insteon_device.async_status()
 
     async def async_added_to_hass(self):
         """Register INSTEON update events."""
