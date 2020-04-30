@@ -32,11 +32,11 @@ class InsteonFan(InsteonEntity, FanEntity):
     @property
     def speed(self) -> str:
         """Return the current speed."""
-        if self._insteon_device_group == FanSpeed.HIGH:
+        if self._insteon_device_group.value == FanSpeed.HIGH:
             return SPEED_HIGH
-        if self._insteon_device_group == FanSpeed.MEDIUM:
+        if self._insteon_device_group.value == FanSpeed.MEDIUM:
             return SPEED_MEDIUM
-        if self._insteon_device_group == FanSpeed.LOW:
+        if self._insteon_device_group.value == FanSpeed.LOW:
             return SPEED_LOW
         return SPEED_OFF
 
