@@ -78,7 +78,8 @@ async def async_setup_platforms(hass, config):
     register_new_device_callback(hass, config)
     async_register_services(hass)
 
-    await asyncio.gather(*[devices[addr].async_status() for addr in devices])
+    for address in devices:
+        await devices[address].async_status()
     await async_id_unknown_devices(hass.config.config_dir)
 
 
