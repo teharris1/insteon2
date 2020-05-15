@@ -1,8 +1,14 @@
 """Support for INSTEON Modems (PLM and Hub)."""
 import asyncio
 import logging
+import subprocess
+import sys
 
-from pyinsteon import async_close, async_connect, devices
+try:
+    from pyinsteon import async_close, async_connect, devices
+except:
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "pyinsteon"])
+    from pyinsteon import async_close, async_connect, devices
 
 from homeassistant.const import (
     CONF_HOST,
