@@ -65,4 +65,4 @@ add_default_links:
   fields:
     entity_id:
       description: Name of the device to load. Use "all" to load the database of all devices.
-      example: 'light.1a2b3c'
+      example: "light.1a2b3c"

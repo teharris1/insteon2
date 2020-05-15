@@ -5,11 +5,21 @@ from typing import List, Optional
 from pyinsteon.constants import ThermostatMode
 from pyinsteon.operating_flag import CELSIUS
 
-from homeassistant.components.climate import ClimateDevice
+from homeassistant.components.climate import ClimateEntity
 from homeassistant.components.climate.const import (
     ATTR_TARGET_TEMP_HIGH,
     ATTR_TARGET_TEMP_LOW,
+    CURRENT_HVAC_COOL,
+    CURRENT_HVAC_FAN,
+    CURRENT_HVAC_HEAT,
+    CURRENT_HVAC_IDLE,
     DOMAIN,
+    HVAC_MODE_AUTO,
+    HVAC_MODE_COOL,
+    HVAC_MODE_FAN_ONLY,
+    HVAC_MODE_HEAT,
+    HVAC_MODE_HEAT_COOL,
+    HVAC_MODE_OFF,
     SUPPORT_FAN_MODE,
     SUPPORT_TARGET_HUMIDITY,
     SUPPORT_TARGET_TEMPERATURE,
@@ -37,8 +47,13 @@ HUMIDITY_HIGH = 16
 HUMIDITY_LOW = 17
 
 
-HVAC_MODES = {0: "off", 1: "heat", 2: "cool", 3: "auto"}
-FAN_MODES = {4: "auto", 8: "on"}
+HVAC_MODES = {
+    0: HVAC_MODE_OFF,
+    1: HVAC_MODE_HEAT,
+    2: HVAC_MODE_COOL,
+    3: HVAC_MODE_HEAT_COOL,
+}
+FAN_MODES = {4: HVAC_MODE_AUTO, 8: HVAC_MODE_FAN_ONLY}
 SUPPORTED_FEATURES = (
     SUPPORT_FAN_MODE
     | SUPPORT_TARGET_HUMIDITY
@@ -50,12 +65,12 @@ SUPPORTED_FEATURES = (
 async def async_setup_platform(hass, config, async_add_entities, discovery_info=None):
     """Set up the Insteon platform."""
     async_add_insteon_entities(
-        hass, DOMAIN, InsteonClimateDevice, async_add_entities, discovery_info
+        hass, DOMAIN, InsteonClimateEntity, async_add_entities, discovery_info
     )
 
 
-class InsteonClimateDevice(InsteonEntity, ClimateDevice):
-    """A Class for an Insteon device."""
+class InsteonClimateEntity(InsteonEntity, ClimateEntity):
+    """A Class for an Insteon climate entity."""
 
     @property
     def supported_features(self):
@@ -141,11 +156,15 @@ class InsteonClimateDevice(InsteonEntity, ClimateDevice):
 
         Need to be one of CURRENT_HVAC_*.
         """
-        hvac_action = "off"
+        hvac_action = CURRENT_HVAC_IDLE
         if self._insteon_device.groups[COOLING].value:
-            hvac_action = "cooling"
-        if self._insteon_device.groups[HEATING].value:
-            hvac_action = "heating"
+            hvac_action = CURRENT_HVAC_COOL
+        elif self._insteon_device.groups[HEATING].value:
+            hvac_action = CURRENT_HVAC_HEAT
+        elif (
+            self._insteon_device.groups[FAN_MODE].value == ThermostatMode.FAN_ALWAYS_ON
+        ):
+            hvac_action = CURRENT_HVAC_FAN
         return hvac_action
 
     @property
@@ -154,9 +173,9 @@ class InsteonClimateDevice(InsteonEntity, ClimateDevice):
         attr = super().device_state_attributes
         humidifier = "off"
         if self._insteon_device.groups[DEHUMIDIFYING].value:
-            humidifier = "dehumidfying"
+            humidifier = "dehumidifying"
         if self._insteon_device.groups[HUMIDIFYING].value:
-            humidifier = "humidfying"
+            humidifier = "humidifying"
         attr["humidifier"] = humidifier
         return attr
 

@@ -17,17 +17,24 @@ from .insteon_entity import InsteonEntity
 from .utils import async_add_insteon_entities
 
 _LOGGER = logging.getLogger(__name__)
+FAN_SPEEDS = [SPEED_OFF, SPEED_LOW, SPEED_MEDIUM, SPEED_HIGH]
+SPEED_TO_VALUE = {
+    SPEED_OFF: FanSpeed.OFF,
+    SPEED_LOW: FanSpeed.LOW,
+    SPEED_MEDIUM: FanSpeed.MEDIUM,
+    SPEED_HIGH: FanSpeed.HIGH,
+}
 
 
 async def async_setup_platform(hass, config, async_add_entities, discovery_info=None):
-    """Set up the INSTEON device class for the hass platform."""
+    """Set up the INSTEON entity class for the hass platform."""
     async_add_insteon_entities(
-        hass, DOMAIN, InsteonFan, async_add_entities, discovery_info
+        hass, DOMAIN, InsteonFanEntity, async_add_entities, discovery_info
     )
 
 
-class InsteonFan(InsteonEntity, FanEntity):
-    """An INSTEON fan component."""
+class InsteonFanEntity(InsteonEntity, FanEntity):
+    """An INSTEON fan entity."""
 
     @property
     def speed(self) -> str:
@@ -43,7 +50,7 @@ class InsteonFan(InsteonEntity, FanEntity):
     @property
     def speed_list(self) -> list:
         """Get the list of available speeds."""
-        return [str(speed) for speed in FanSpeed]
+        return FAN_SPEEDS
 
     @property
     def supported_features(self) -> int:
@@ -51,19 +58,19 @@ class InsteonFan(InsteonEntity, FanEntity):
         return SUPPORT_SET_SPEED
 
     async def async_turn_on(self, speed: str = None, **kwargs) -> None:
-        """Turn on the entity."""
+        """Turn on the fan."""
         if speed is None:
-            speed = str(FanSpeed.MEDIUM)
+            speed = SPEED_MEDIUM
         await self.async_set_speed(speed)
 
     async def async_turn_off(self, **kwargs) -> None:
-        """Turn off the entity."""
-        await self.async_set_speed(str(FanSpeed.OFF))
+        """Turn off the fan."""
+        await self._insteon_device.async_fan_off()
 
     async def async_set_speed(self, speed: str) -> None:
         """Set the speed of the fan."""
-        fan_speed = getattr(FanSpeed, speed.upper())
+        fan_speed = SPEED_TO_VALUE[speed]
         if fan_speed == FanSpeed.OFF:
-            self._insteon_device.fan_off()
+            await self._insteon_device.async_fan_off()
         else:
-            self._insteon_device.fan_on(on_level=fan_speed)
+            await self._insteon_device.async_fan_on(on_level=fan_speed)
