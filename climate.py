@@ -5,7 +5,7 @@ from typing import List, Optional
 from pyinsteon.constants import ThermostatMode
 from pyinsteon.operating_flag import CELSIUS
 
-from homeassistant.components.climate import ClimateEntity
+from homeassistant.components.climate import ClimateDevice
 from homeassistant.components.climate.const import (
     ATTR_TARGET_TEMP_HIGH,
     ATTR_TARGET_TEMP_LOW,
@@ -69,7 +69,7 @@ async def async_setup_platform(hass, config, async_add_entities, discovery_info=
     )
 
 
-class InsteonClimateEntity(InsteonEntity, ClimateEntity):
+class InsteonClimateEntity(InsteonEntity, ClimateDevice):
     """A Class for an Insteon climate entity."""
 
     @property

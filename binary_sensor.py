@@ -27,7 +27,7 @@ from homeassistant.components.binary_sensor import (
     DEVICE_CLASS_SAFETY,
     DEVICE_CLASS_SMOKE,
     DOMAIN,
-    BinarySensorEntity,
+    BinarySensorDevice,
 )
 
 from .insteon_entity import InsteonEntity
@@ -57,7 +57,7 @@ async def async_setup_platform(hass, config, async_add_entities, discovery_info=
     )
 
 
-class InsteonBinarySensorEntity(InsteonEntity, BinarySensorEntity):
+class InsteonBinarySensorEntity(InsteonEntity, BinarySensorDevice):
     """A Class for an Insteon binary sensor entity."""
 
     def __init__(self, device, group):

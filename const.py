@@ -32,7 +32,7 @@ from pyinsteon.groups import (
     TEST_SENSOR,
 )
 
-DOMAIN = "insteon"
+DOMAIN = "insteon2"
 
 INSTEON_COMPONENTS = [
     "binary_sensor",
