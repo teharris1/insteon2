@@ -5,7 +5,7 @@ from homeassistant.components.light import (
     ATTR_BRIGHTNESS,
     DOMAIN,
     SUPPORT_BRIGHTNESS,
-    LightDevice,
+    Light,
 )
 
 from .insteon_entity import InsteonEntity
@@ -23,7 +23,7 @@ async def async_setup_platform(hass, config, async_add_entities, discovery_info=
     )
 
 
-class InsteonDimmerEntity(InsteonEntity, LightDevice):
+class InsteonDimmerEntity(InsteonEntity, Light):
     """A Class for an Insteon light entity."""
 
     @property
