@@ -13,17 +13,8 @@ of new features.
 - Events are published and can be listened for like double tap on/off (May requre a python script however)
 - Hub users can use it interchangably with the Hub app. The state will updated in HA.
 
-Download these files and either put them in `<config>/custom_components/insteon2` director. <config> is the location
-where your `configuration.yaml` file is. The `custom_components` folder will likely not exist so you need to create it.
+Download these files and either put them in `<config>/custom_components/insteon2` director. <config> is the location where your `configuration.yaml` file is. The `custom_components` folder will likely not exist so you need to create it. The custom component will install the `pyinsteon` module if needed so there is no longer a need to install that separately.
 
-You can download these files here: https://github.com/teharris1/insteon2/archive/master.zip
-
-Install the `pyinsteon` library using this command:
-```
-python3 -m pip install --upgrade https://github.com/teharris1/pyinsteon/archive/release1.zip
-```
-
-Alternatively you can use the Dockerfile to start a docker image.
 
 Your `configuration.yaml` needs to contain the following
 
