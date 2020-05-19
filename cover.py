@@ -32,6 +32,10 @@ class InsteonCoverEntity(InsteonEntity, CoverDevice):
     @property
     def current_cover_position(self):
         """Return the current cover position."""
+        if self._insteon_device_group.value is not None:
+            pos = self._insteon_device_group.value
+        else:
+            pos = 0
         return int(math.ceil(self._insteon_device_group.value * 100 / 255))
 
     @property
