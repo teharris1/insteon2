@@ -63,5 +63,5 @@ class InsteonCoverEntity(InsteonEntity, CoverDevice):
             await self._insteon_device.async_close()
         else:
             await self._insteon_device.async_open(
-                position=position, group=self._insteon_device_group.group
+                open_level=position, group=self._insteon_device_group.group
             )
