@@ -4,7 +4,7 @@ import logging
 from homeassistant.util.package import install_package
 
 try:
-    install_package("pyinsteon==1.0.4")
+    install_package("https://github.com/teharris1/pyinsteon/patch5/pyinsteon.git")
     from pyinsteon import async_close, async_connect, devices
 except:
     raise ImportError("Cannot install pyinsteon")
