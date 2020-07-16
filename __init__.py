@@ -1,13 +1,15 @@
 """Support for INSTEON Modems (PLM and Hub)."""
 import asyncio
 import logging
-from homeassistant.util.package import install_package
+import os
+import sys
 
 try:
-    install_package("./pyinsteon")
+    stream = os.popen(f"{sys.executable} -m pip install --upgrade https://github.com/teharris1/pyinsteon/tarball/patch6")
+    output = stream.read()
     from pyinsteon import async_close, async_connect, devices
 except:
-    raise ImportError("Cannot install pyinsteon")
+    raise ImportError(f"Cannot install pyinsteon: {output}")
 
 from homeassistant.const import (
     CONF_HOST,
@@ -43,7 +45,7 @@ from .utils import (
 )
 
 _LOGGER = logging.getLogger(__name__)
-
+_LOGGER.info(output)
 
 async def async_id_unknown_devices(config_dir):
     """Send device ID commands to all unidentified devices."""
@@ -113,19 +115,27 @@ async def async_setup(hass, config):
     else:
         _LOGGER.info("Connecting to Insteon PLM on %s", port)
 
-    try:
-        await async_connect(
-            device=port,
-            host=host,
-            port=ip_port,
-            username=username,
-            password=password,
-            hub_version=hub_version,
-        )
-    except ConnectionError:
-        _LOGGER.error("Could not connect to Insteon modem")
+    retries = 5
+    connected = False
+    while retries and not connected:
+        try:
+            await async_connect(
+                device=port,
+                host=host,
+                port=ip_port,
+                username=username,
+                password=password,
+                hub_version=hub_version,
+            )
+            connected = True
+        except ConnectionError:
+            _LOGGER.error("Could not connect to Insteon modem")
+            await asyncio.sleep(90)
+            retries -= 1
+    if not connected:
         return False
     _LOGGER.info("Connection to Insteon modem successful")
+
 
     hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, close_insteon_connection)
     conf = config[DOMAIN]
